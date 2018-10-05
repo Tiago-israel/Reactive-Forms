@@ -12,18 +12,28 @@
                 <div class="form-group">
                   <label>Nome*:</label>
                   <input type="text" formControlName="nome" class="form-control" />
+                  <div *ngIf="form.nome.dirty && form.nome.errors">
+                    <label class="error" *ngIf="form.nome.errors.required" [innerHtml]="mensagensValidacao.nome.required"></label>
+                    <label class="error" *ngIf="form.nome.errors.minlength" [innerHtml]="mensagensValidacao.nome.minlength"></label>
+                  </div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Sobrenome*:</label>
                   <input type="text" formControlName="sobrenome" class="form-control" />
+                  <div *ngIf="form.sobrenome.dirty && form.sobrenome.errors">
+                    <label class="error" *ngIf="form.sobrenome.errors.required" [innerHtml]="mensagensValidacao.sobrenome.required" ></label>
+                  </div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Data de nascimento*:</label>
                   <input type="date" formControlName="dataNascimento" class="form-control" />
+                  <div *ngIf="form.dataNascimento.dirty && form.dataNascimento.errors">
+                    <label class="error" *ngIf="form.dataNascimento.errors.required" [innerHtml]="mensagensValidacao.dataNascimento.required"></label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -33,6 +43,9 @@
                   <div class="form-group">
                     <label>CEP*:</label>
                     <input type="text" formControlName="cep" (keyup)="buscarCep()" class="form-control" />
+                    <div *ngIf="enderecoForm.controls.cep.dirty && enderecoForm.controls.cep.errors">
+                      <label class="error" [innerHtml]="mensagensValidacao.cep.required"></label>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -52,6 +65,9 @@
                 <div class="col-md-4">
                   <label>Número*:</label>
                   <input type="text" formControlName="numero" class="form-control" />
+                  <div *ngIf="enderecoForm.controls.numero.dirty && enderecoForm.controls.numero.errors">
+                    <label class="error" [innerHtml]="mensagensValidacao.numero.required"></label>
+                  </div>
                 </div>
                 <div class="col-md-4">
                   <label>Cidade*:</label>
@@ -65,6 +81,7 @@
             </div>
             <div>
               <button type="submit" style="margin-top: 20px;" [disabled]="formulario.invalid" class="btn btn-info pull-right">salvar</button>
+              <button type="button" style="margin-top: 20px;" (click)="limparFormulario()" class="btn btn-default pull-left">limpar</button>
             </div>
           </form>
         </div>

@@ -11,26 +11,59 @@ import { Endereco } from './models/endereco';
 })
 export class AppComponent implements OnInit {
 
-  title = 'reactive-forms';
-
   public formulario: FormGroup;
+  public mensagensValidacao: any;
+
 
   public constructor(
     private formBuilder: FormBuilder,
     private cepSerice: CepService
   ) { }
 
+
+
   public ngOnInit(): void {
     this.criarFormulario(new Pessoa());
+    this.criarMensagemValidacao();
+  }
+
+
+  public get form(): any {
+    return this.formulario.controls;
+  }
+
+  public get enderecoForm(): AbstractControl {
+    return this.form.endereco;
+  }
+
+  private criarMensagemValidacao(): void {
+    this.mensagensValidacao = {
+      nome: {
+        required: "O nome é obrigatório.",
+        minlength: "O Nome deve conter no minímo 3 caracteres."
+      },
+      sobrenome: {
+        required: "O sobrenome é obrigatório."
+      },
+      dataNascimento: {
+        required: "A data de nascimento é obrigatória"
+      },
+      cep:{
+        required: "O cep é obrigatório."
+      },
+      numero:{
+        required: "O número é obrigatório."
+      }
+    }
   }
 
   private criarFormulario(pessoa: Pessoa): void {
     this.formulario = this.formBuilder.group({
-      nome: [pessoa.nome, Validators.required],
+      nome: [pessoa.nome, [Validators.required, Validators.minLength(3)]],
       sobrenome: [pessoa.sobrenome, Validators.required],
       dataNascimento: [pessoa.dataNascimento, Validators.required],
       endereco: this.formBuilder.group({
-        cep: [pessoa.endereco.cep, Validators.required],
+        cep: [pessoa.endereco.cep, [Validators.required]],
         logradouro: [{ value: pessoa.endereco.logradouro, disabled: true }, Validators.required],
         bairro: [{ value: pessoa.endereco.bairro, disabled: true }, Validators.required],
         numero: [pessoa.endereco.numero, Validators.required],
@@ -41,16 +74,15 @@ export class AppComponent implements OnInit {
   }
 
   private preencherCamposEndereco(endereco: Endereco): void {
-    let enderecoForm: AbstractControl = this.formulario.get("endereco");
-    enderecoForm.get("logradouro").setValue(endereco.logradouro);
-    enderecoForm.get("bairro").setValue(endereco.bairro);
-    enderecoForm.get("cidade").setValue(endereco.localidade);
-    enderecoForm.get("uf").setValue(endereco.uf);
-    enderecoForm.updateValueAndValidity();
+    this.enderecoForm.get("logradouro").setValue(endereco.logradouro);
+    this.enderecoForm.get("bairro").setValue(endereco.bairro);
+    this.enderecoForm.get("cidade").setValue(endereco.localidade);
+    this.enderecoForm.get("uf").setValue(endereco.uf);
+    this.enderecoForm.updateValueAndValidity();
   }
 
   public buscarCep() {
-    let cep: string = this.formulario.get("endereco").get("cep").value;
+    let cep: string = this.enderecoForm.get("cep").value;
     if (cep.length == 8 || cep.length == 9) {
       this.cepSerice.consultarCep(cep).subscribe(
         (endereco: Endereco) => {
@@ -63,10 +95,21 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public limparFormulario(): void {
+    this.formulario.reset();
+  }
+
   public salvar(): void {
     let pessoa: Pessoa = this.formulario.value;
+    pessoa.endereco.bairro = this.enderecoForm.get("bairro").value;
+    pessoa.endereco.logradouro = this.enderecoForm.get("logradouro").value;
+    pessoa.endereco.localidade = this.enderecoForm.get("cidade").value;
+    pessoa.endereco.uf = this.enderecoForm.get("uf").value;
     console.log(pessoa);
   }
+
+
+
 
 
 }
