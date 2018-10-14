@@ -12,28 +12,30 @@
                 <div class="form-group">
                   <label>Nome*:</label>
                   <input type="text" formControlName="nome" class="form-control" />
-                  <div *ngIf="form.nome.dirty && form.nome.errors">
-                    <label class="error" *ngIf="form.nome.errors.required" [innerHtml]="mensagensValidacao.nome.required"></label>
-                    <label class="error" *ngIf="form.nome.errors.minlength" [innerHtml]="mensagensValidacao.nome.minlength"></label>
-                  </div>
+                  <app-mensagem-validacao [mensagens]="mensagensValidacao.nome" [control]="form.nome" [erros]="form.nome.errors"></app-mensagem-validacao>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Sobrenome*:</label>
                   <input type="text" formControlName="sobrenome" class="form-control" />
-                  <div *ngIf="form.sobrenome.dirty && form.sobrenome.errors">
-                    <label class="error" *ngIf="form.sobrenome.errors.required" [innerHtml]="mensagensValidacao.sobrenome.required" ></label>
-                  </div>
+                  <app-mensagem-validacao [mensagens]="mensagensValidacao.sobrenome" [control]="form.sobrenome" [erros]="form.sobrenome.errors"></app-mensagem-validacao>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Data de nascimento*:</label>
                   <input type="date" formControlName="dataNascimento" class="form-control" />
-                  <div *ngIf="form.dataNascimento.dirty && form.dataNascimento.errors">
-                    <label class="error" *ngIf="form.dataNascimento.errors.required" [innerHtml]="mensagensValidacao.dataNascimento.required"></label>
-                  </div>
+                  <app-mensagem-validacao [mensagens]="mensagensValidacao.dataNascimento" [control]="form.dataNascimento" [erros]="form.dataNascimento.errors"></app-mensagem-validacao>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Email*:</label>
+                  <input type="email" name="email" formControlName="email" class="form-control" />
+                  <app-mensagem-validacao [mensagens]="mensagensValidacao.email" [control]="form.email" [erros]="form.email.errors"></app-mensagem-validacao>
                 </div>
               </div>
             </div>
@@ -43,9 +45,7 @@
                   <div class="form-group">
                     <label>CEP*:</label>
                     <input type="text" formControlName="cep" (keyup)="buscarCep()" class="form-control" />
-                    <div *ngIf="enderecoForm.controls.cep.dirty && enderecoForm.controls.cep.errors">
-                      <label class="error" [innerHtml]="mensagensValidacao.cep.required"></label>
-                    </div>
+                    <app-mensagem-validacao [mensagens]="mensagensValidacao.cep" [control]="enderecoForm.controls.cep" [erros]="enderecoForm.controls.cep.errors"></app-mensagem-validacao>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -65,13 +65,11 @@
                 <div class="col-md-4">
                   <label>Número*:</label>
                   <input type="text" formControlName="numero" class="form-control" />
-                  <div *ngIf="enderecoForm.controls.numero.dirty && enderecoForm.controls.numero.errors">
-                    <label class="error" [innerHtml]="mensagensValidacao.numero.required"></label>
-                  </div>
+                  <app-mensagem-validacao [mensagens]="mensagensValidacao.numero" [control]="enderecoForm.controls.numero" [erros]="enderecoForm.controls.numero.errors"></app-mensagem-validacao>
                 </div>
                 <div class="col-md-4">
                   <label>Cidade*:</label>
-                  <input type="text" formControlName="cidade" class="form-control" />
+                  <input type="text" formControlName="localidade" class="form-control" />
                 </div>
                 <div class="col-md-4">
                   <label>UF*:</label>
